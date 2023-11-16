@@ -71,12 +71,33 @@ void MainWindow::on_btn_openfile_clicked()
 {
     QFileInfo fileinfo = QFileInfo(target_file_path);
     qDebug()<<"bin  absolutePath:" << fileinfo.absolutePath();
-    QString tmp = QFileDialog::getOpenFileName(this,"选择bin文件", fileinfo.absolutePath(), "bin文件(*.bin)");
+    QString tmp = QFileDialog::getOpenFileName(this,"选择hex文件", fileinfo.absolutePath(), "hex件(*.hex)");
     if(tmp.isEmpty())
         return;
     target_file_path = tmp;
     qDebug() << "file path: " << target_file_path;
 
     ui->lineEdit->setText(target_file_path);
+
+    // 读取hex文件
+    QFile *file = new QFile;
+    file->setFileName(target_file_path);
+    if(file->open(QIODevice::ReadOnly)){
+        QTextStream HexFileData(file);
+        QByteArray readdata_arry;
+        readdata_arry = HexFileData.readAll().toLocal8Bit();
+        qDebug() << "read ok!";
+
+//        fileinfo.HexFileRawData = HexFileData.readAll().toLocal8Bit();
+        qDebug() << readdata_arry.size();
+        file->close();
+    }
+//    else
+//    {
+//        QMessageBox mesg;
+//        mesg.critical(this,tr("Error"),tr("无法读取,请检查Hex文件路径!"));
+//        return;
+//    }
+
     save_windows_parm();
 }

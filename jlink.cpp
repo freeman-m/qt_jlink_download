@@ -188,7 +188,7 @@ bool JlinkView::jlinkConnectHandle(void)
     {
         jlinkExecCommandFunc("device = NRF52810_XXAA", 0, 0);
         jlinkTIFSelectFunc(JLINKARM_TIF_SWD);
-        jlinkSetSpeedFunc(4000);
+        jlinkSetSpeedFunc(2000);
         jlinkConnectFunc();
         if (jlinkIsConnectedFunc()){
             infoShowHandle(tr("设备连接成功"));
